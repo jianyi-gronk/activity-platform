@@ -7,7 +7,18 @@ const routes: Readonly<RouteRecordRaw[]> = [
     name: "Root",
     redirect: "home",
     component: () => import("../layout/index.vue"),
-    children: []
+    children: [
+      {
+        path: "/home",
+        name: "home",
+        component: () => import("../views/home/index.vue")
+      },
+      {
+        path: "/all",
+        name: "all",
+        component: () => import("../views/all/index.vue")
+      }
+    ]
   }
 ];
 
