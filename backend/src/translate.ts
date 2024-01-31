@@ -1,15 +1,15 @@
-const translate = require("translate");
+import translate from "translate";
+import toxicity from '@tensorflow-models/toxicity'
 
-translate.engine = "google";
-translate.key = "YOUR_API_KEY";
+const threshold = 0.9;
+const model = await toxicity.load(threshold, []);
 
-const textToTranslate = "要翻译的文本";
-const targetLanguage = "en";
-
-translate(textToTranslate, targetLanguage)
-  .then((translatedText) => {
-    console.log(translatedText);
-  })
-  .catch((error) => {
-    console.error(error);
-  });
+export async function checkText(text: string) {
+	// 进行翻译
+  text = await translate(text, { from: 'zh', to: 'en' });
+	const sentences = [text];
+	
+	// 毒性检测
+  const predictions = await model.classify(sentences)
+  return predictions;
+}
