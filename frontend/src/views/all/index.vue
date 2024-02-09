@@ -2,16 +2,19 @@
   <div class="__container_all_index">
     <a-flex vertical>
       <a-form class="filter">
+        <a-form-item>
+          <a-checkbox v-model:checked="filterDate.like">只看我喜欢的</a-checkbox>
+        </a-form-item>
         <a-form-item label="活动名">
           <a-input-search
-            v-model:value="name"
+            v-model:value="filterDate.name"
             placeholder="请输入"
             @search="() => {}"
             class="filter-input"
           />
         </a-form-item>
         <a-form-item label="活动状态">
-          <a-radio-group v-model:value="state">
+          <a-radio-group v-model:value="filterDate.state">
             <a-radio value="all">全部</a-radio>
             <a-radio value="complete">已结束</a-radio>
             <a-radio value="progress">进行中</a-radio>
@@ -19,9 +22,25 @@
           </a-radio-group>
         </a-form-item>
         <a-form-item label="活动标签">
-          <a-checkbox-group v-model:value="selectLabels">
-            <a-checkbox class="filter-checkbox-item" v-for="item in allLabels" :value="item.value" :key="item.label">{{ item.label }}</a-checkbox>
-          </a-checkbox-group>
+          <template v-for="label in filterDate.labels" :key="label">
+            <a-tag @close="handleClose(label)">
+              {{ label }}
+            </a-tag>
+          </template>
+          <a-input
+            v-if="inputVisible"
+            ref="inputRef"
+            v-model:value="inputLabel"
+            type="text"
+            size="small"
+            :style="{ width: '78px' }"
+            @blur="handleInputConfirm"
+            @keyup.enter="handleInputConfirm"
+          />
+          <a-tag v-else style="background: #fff; border-style: dashed" @click="showInput">
+            <plus-outlined />
+            New Tag
+          </a-tag>
         </a-form-item>
       </a-form>
       <a-flex class="activity-container">
@@ -32,20 +51,38 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
+import { PlusOutlined } from '@ant-design/icons-vue';
 
-const name = ref('');
-const state = ref('all');
+const inputRef = ref<HTMLInputElement | null>(null);
+const inputLabel = ref('');
+const inputVisible = ref(false);
 
-const selectLabels = ref([]);
-const allLabels = ref([]);
-for (let i = 0; i < 100; i++) {
-  const value = `${i.toString(36)}${i}`;
-  allLabels.value.push({
-    label: value,
-    value
+const filterDate = ref({
+  like: false,
+  name: '',
+  state: 'all',
+  labels: []
+})
+
+const handleClose = (removedLabel: string) => {
+  filterDate.value.labels = filterDate.value.labels.filter(tag => tag !== removedLabel);
+};
+
+const showInput = () => {
+  inputVisible.value = true;
+  nextTick(() => {
+    inputRef.value!.focus();
   });
-}
+};
+
+const handleInputConfirm = () => {
+  if (inputLabel.value) {
+    filterDate.value.labels.push(inputLabel.value);
+  }
+  inputLabel.value = '';
+  inputVisible.value = false;
+};
 
 </script>
 

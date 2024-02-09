@@ -14,6 +14,7 @@ const defaultOptions = {
   user: SQL_DATABASE
 };
 
+// 实现连接 mysql
 export class SQL {
   private connection: mysql.Connection;
 
