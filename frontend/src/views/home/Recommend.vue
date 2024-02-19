@@ -3,13 +3,17 @@
     <p class="title">推荐活动</p>
     <a-divider />
     <a-flex class="activity-container">
-      <div class="activity-item" v-for="i in new Array(100)" :key="i"></div>
+      <div class="activity-item" v-for="i in new Array(100)" :key="i" @click="showDetail = true"></div>
     </a-flex>
+    <activity-detail v-model:showDetail=showDetail></activity-detail>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+import ActivityDetail from '../common/ActivityDetail.vue'
 
+const showDetail = ref(false);
 </script>
 
 <style scoped lang="less">

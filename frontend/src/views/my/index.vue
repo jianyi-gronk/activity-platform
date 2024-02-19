@@ -8,11 +8,12 @@
           list-type="picture-card"
           class="avatar-uploader"
           :show-upload-list="false"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
           :before-upload="beforeUpload"
           @change="handleChange"
+          :customRequest="updateAvatar"
+          :disabled="!canEdit"
         >
-          <img v-if="imageUrl" :src="imageUrl" alt="avatar" />
+          <img v-if="userData.avatar" :src="userData.avatar" alt="avatar" class="avatar-image" />
           <div v-else>
             <loading-outlined v-if="loading"></loading-outlined>
             <plus-outlined v-else></plus-outlined>
@@ -22,8 +23,8 @@
       </a-descriptions-item>
       <a-descriptions-item label="用户名">
         <div v-if="!editValue.userName.isEdit">
-          <span>123</span>
-          <edit-outlined class="edit-icon" @click="showEdit('userName')"/>
+          <span>{{ userData.userName }}</span>
+          <edit-outlined class="edit-icon" @click="showEdit('userName')" v-if="canEdit" />
         </div>
         <div v-else>
           <a-flex class="edit-container">
@@ -35,8 +36,8 @@
       </a-descriptions-item>
       <a-descriptions-item label="用户密码">
         <div v-if="!editValue.password.isEdit">
-          <span>123</span>
-          <edit-outlined class="edit-icon" @click="showEdit('password')"/>
+          <span>{{ userData.password }}</span>
+          <edit-outlined class="edit-icon" @click="showEdit('password')" v-if="canEdit" />
         </div>
         <div v-else>
           <a-flex class="edit-container">
@@ -48,8 +49,8 @@
       </a-descriptions-item>
       <a-descriptions-item label="姓名">
         <div v-if="!editValue.name.isEdit">
-          <span>123</span>
-          <edit-outlined class="edit-icon" @click="showEdit('name')"/>
+          <span>{{ userData.name }}</span>
+          <edit-outlined class="edit-icon" @click="showEdit('name')" v-if="canEdit" />
         </div>
         <div v-else>
           <a-flex class="edit-container">
@@ -61,8 +62,8 @@
       </a-descriptions-item>
       <a-descriptions-item label="性别">
         <div v-if="!editValue.sex.isEdit">
-          <span>123</span>
-          <edit-outlined class="edit-icon" @click="showEdit('sex')"/>
+          <span>{{ toSexString(userData.sex) }}</span>
+          <edit-outlined class="edit-icon" @click="showEdit('sex')" v-if="canEdit" />
         </div>
         <div v-else>
           <a-flex class="edit-container">
@@ -74,8 +75,8 @@
       </a-descriptions-item>
       <a-descriptions-item label="联系电话">
         <div v-if="!editValue.phone.isEdit">
-          <span>123</span>
-          <edit-outlined class="edit-icon" @click="showEdit('phone')"/>
+          <span>{{ userData.phone }}</span>
+          <edit-outlined class="edit-icon" @click="showEdit('phone')" v-if="canEdit" />
         </div>
         <div v-else>
           <a-flex class="edit-container">
@@ -87,8 +88,8 @@
       </a-descriptions-item>
       <a-descriptions-item label="联系邮箱">
         <div v-if="!editValue.email.isEdit">
-          <span>123</span>
-          <edit-outlined class="edit-icon" @click="showEdit('email')"/>
+          <span>{{ userData.email }}</span>
+          <edit-outlined class="edit-icon" @click="showEdit('email')" v-if="canEdit" />
         </div>
         <div v-else>
           <a-flex class="edit-container">
@@ -100,8 +101,8 @@
       </a-descriptions-item>
       <a-descriptions-item label="个人简介">
         <div v-if="!editValue.description.isEdit">
-          <span>123</span>
-          <edit-outlined class="edit-icon" @click="showEdit('description')"/>
+          <span>{{ userData.description }}</span>
+          <edit-outlined class="edit-icon" @click="showEdit('description')" v-if="canEdit" />
         </div>
         <div v-else>
           <a-flex class="edit-container">
@@ -112,14 +113,40 @@
         </div>
       </a-descriptions-item>
     </a-descriptions>
+    <a-flex class="operate" v-if="canEdit">
+      <a-button type="link" @click="exitUser">退出登陆</a-button>
+      <a-popconfirm
+        title="确定要注销吗？"
+        ok-text="是"
+        cancel-text="否"
+        @confirm="deleteUser"
+      >
+        <a-button type="link">注销</a-button>
+      </a-popconfirm>
+    </a-flex>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { PlusOutlined, LoadingOutlined, EditOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons-vue';
 import { message } from 'ant-design-vue';
 import type { UploadChangeParam, UploadProps } from 'ant-design-vue';
+import { changeIsLogin } from '@/base/localStorage'
+import { useRouter, useRoute } from 'vue-router';
+import { getUserInformation, updateUserInformation, deleteUserInformation, verifyUser } from '@/api/api'
+
+const route = useRoute();
+const router = useRouter();
+
+const userId = ref(route.params.userId);
+
+const canEdit = ref(false);
+
+const isAbleEdit = async () => {
+  const data = await verifyUser({ userId: userId.value });
+  canEdit.value = data.result;
+}
 
 const sexOptions = ref([
   {
@@ -167,18 +194,64 @@ const editValue = ref({
   }
 })
 
-const showEdit = (param: string) => {
-  editValue.value[param].isEdit = true;
+const toSexString = (param: string) => {
   switch(param) {
-    case 'password':
-      editValue.value[param].value = '';
-    default:
-      editValue.value[param].value = '123';
+    case 'unselected':
+      return '未选择';
+    case 'woman':
+      return '女';
+    case 'male':
+      return '男';
   }
 }
 
-const update = (param: string) => {
-  console.log(param)
+const userData = ref({});
+
+const getUserInfo = async () => {
+  const data = await getUserInformation({ userId: userId.value });
+  if(data.result) {
+    userData.value = data.result;
+  } else {
+    message.error('获取用户信息失败！');
+  }
+}
+
+const showEdit = (param: string) => {
+  editValue.value[param].isEdit = true;
+  editValue.value[param].value = userData.value[param];
+}
+
+const update = async (param: string) => {
+  userData.value[param] = editValue.value[param].value;
+  const data = await updateUserInformation(userData.value);
+  if(data.result) {
+    message.success('更新用户信息成功！')
+  }
+  else {
+    message.error('更新用户信息失败！');
+  }
+  closeEdit(param);
+  getUserInfo();
+}
+
+const updateAvatar = (options) => {
+  const { file, onSuccess } = options;
+
+  // 创建 FileReader 对象
+  const reader = new FileReader();
+  reader.onload = async () => {
+    const base64Image = reader.result;
+    userData.value.avatar = base64Image;
+
+    const data = await updateUserInformation(userData.value);
+    if(!data.result) {
+      message.error('更新用户信息失败！');
+    }
+    await getUserInfo();
+    onSuccess();
+  };
+
+  reader.readAsDataURL(file);
 }
 
 const closeEdit = (param: string) => {
@@ -224,6 +297,31 @@ const beforeUpload = (file: UploadProps['fileList'][number]) => {
   }
   return isJpgOrPng && isLt2M;
 };
+
+const exitUser = () => {
+  changeIsLogin({});
+  router.push('/home');
+}
+
+const deleteUser = async () => {
+  const data = await deleteUserInformation({ userId: userId.value });
+  if(data.result) {
+    exitUser();
+  }
+  else {
+    message.error('注销失败！');
+  }
+}
+
+watch(
+  () => route.params,
+  () => {
+    userId.value = route.params.userId;
+    isAbleEdit();
+    getUserInfo();
+  },
+  { immediate: true }
+);
 </script>
 
 <style scoped lang="less">
@@ -247,19 +345,16 @@ const beforeUpload = (file: UploadProps['fileList'][number]) => {
       margin-right: 20px;
     }
   }
+  .operate {
+    margin-top: 20px;
+    justify-content: flex-end;
+  }
 }
 
-.avatar-uploader > .ant-upload {
-  width: 128px;
-  height: 128px;
-}
-.ant-upload-select-picture-card i {
-  font-size: 32px;
-  color: #999;
-}
-
-.ant-upload-select-picture-card .ant-upload-text {
-  margin-top: 8px;
-  color: #666;
+.avatar-uploader {
+  .avatar-image {
+    height: 102px;
+    width: 102px;
+  }
 }
 </style>

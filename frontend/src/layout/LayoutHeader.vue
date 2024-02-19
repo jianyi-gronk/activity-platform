@@ -15,10 +15,10 @@
           useType="pure"
         ></color-picker>
         <div>
-          <a-avatar v-if="GET_ISLOGIN === 'notSigned'" @click="() => openModal = true">
+          <a-avatar v-if="GET_TOKEN === '' || GET_USERID === ''" @click="() => openModal = true">
             请登陆
           </a-avatar>
-          <a-avatar v-else @click="() => router.push('/my')">
+          <a-avatar v-else @click="() => router.push({ name: 'my', params: { userId: GET_USERID }})">
             <template #icon><UserOutlined /></template>
           </a-avatar>
         </div>
@@ -32,9 +32,7 @@
             :label-col="{ span: 6 }"
             :wrapper-col="{ span: 16 }"
             name="loginForm"
-            @finish="onFinish"
-            @finishFailed="onFinishFailed"
-            @submit="changeIsLogin"
+            @submit="userLogin"
           >
             <a-form-item
               label="用户名"
@@ -51,7 +49,7 @@
               <a-input-password v-model:value="loginForm.password" />
             </a-form-item>
             <a-form-item :wrapper-col="{ offset: 6, span: 16 }">
-              <a-button type="primary" html-type="submit">确认</a-button>
+              <a-button type="primary" html-type="submit" :disabled="!isLoginFormValid">确认</a-button>
             </a-form-item>
           </a-form>
         </a-tab-pane>
@@ -61,8 +59,7 @@
             :label-col="{ span: 6 }"
             :wrapper-col="{ span: 16 }"
             name="registerForm"
-            @finish="onFinish"
-            @finishFailed="onFinishFailed"
+            @submit="userRegister"
           >
             <a-form-item
               label="用户名"
@@ -86,7 +83,7 @@
               <a-input-password v-model:value="registerForm.confirmPassword" />
             </a-form-item>
             <a-form-item :wrapper-col="{ offset: 6, span: 16 }">
-              <a-button type="primary" html-type="submit">确认</a-button>
+              <a-button type="primary" html-type="submit" :disabled="!isRegisterFormValid">确认</a-button>
             </a-form-item>
           </a-form>
         </a-tab-pane>
@@ -96,27 +93,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { UserOutlined } from '@ant-design/icons-vue';
 import {
   GET_THEME,
   changeTheme,
-  GET_ISLOGIN,
+  GET_TOKEN,
+  GET_USERID,
   changeIsLogin
-} from '@/base/localStorage'
+} from '@/base/localStorage';
+import { login, register } from '@/api/api';
+import { message } from 'ant-design-vue';
 
 const router = useRouter();
 
 const openModal = ref(false);
 const activeKey = ref("login")
 
+const isLoginFormValid = computed(() => {
+  return loginForm.value.userName && loginForm.value.password;
+});;
+
+const isRegisterFormValid = computed(() => {
+  return registerForm.value.userName 
+    && registerForm.value.password 
+    && registerForm.value.confirmPassword 
+    && registerForm.value.password === registerForm.value.confirmPassword;
+});;
+
 interface loginForm {
   userName: string;
   password: string;
 }
 
-const loginForm = reactive<loginForm>({
+const loginForm = ref<loginForm>({
   userName: '',
   password: ''
 });
@@ -127,19 +138,40 @@ interface registerForm {
   confirmPassword: string;
 }
 
-const registerForm = reactive<registerForm>({
+const registerForm = ref<registerForm>({
   userName: '',
   password: '',
   confirmPassword: ''
 });
 
-const onFinish = (values: any) => {
-  console.log('Success:', values);
-};
+const userLogin = async () => {
+  const data = await login(loginForm.value);
+  if (data.result) {
+    changeIsLogin({ token: data.result.token, id: data.result.id });
+    message.success('登陆成功！');
+    openModal.value = false;
+  }
+  else {
+    message.error('用户名或密码错误！');
+  }
+}
 
-const onFinishFailed = (errorInfo: any) => {
-  console.log('Failed:', errorInfo);
-};
+const userRegister = async () => {
+  const data = await register({
+    userName: registerForm.value.userName,
+    password: registerForm.value.password
+  })
+  if (data.result) {
+    message.success('注册成功，即将自动登录！');
+    loginForm.value.userName = registerForm.value.userName;
+    loginForm.value.password = registerForm.value.password;
+    userLogin();
+  }
+  else {
+    message.error('注册失败！');
+  }
+}
+
 
 
 </script>

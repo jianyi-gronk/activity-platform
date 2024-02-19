@@ -1,37 +1,29 @@
 import mysql from "mysql";
 import type { MysqlError } from "mysql";
-import { SQL_PASSWORD, SQL_DATABASE } from "./static";
 
-export type SQLOptions = {
-  host?: string;
-  user?: string;
+export type MysqlOptions = {
+  host: string;
+  user: string;
   password: string;
   database: string;
 };
 
-const defaultOptions = {
-  host: SQL_PASSWORD,
-  user: SQL_DATABASE
-};
-
 // 实现连接 mysql
-export class SQL {
+export class Mysql {
   private connection: mysql.Connection;
 
-  constructor(options: SQLOptions) {
+  constructor(options: MysqlOptions) {
     // 建立连接
-    this.connection = mysql.createConnection(
-      Object.assign(defaultOptions, options)
-    );
+    this.connection = mysql.createConnection(options);
     this.connection.connect();
   }
 
   // 对数据库进行增删改查
-  operate(query: string, value?: string) {
+  operate(query: string, value?: string[]) {
     return new Promise((resolve, reject) => {
       this.connection.query(
         query,
-        value,
+        value ? value : [],
         (error: MysqlError | null, results: any[]) => {
           if (error) reject(error);
           resolve(results);

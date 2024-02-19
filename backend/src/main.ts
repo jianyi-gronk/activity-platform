@@ -1,8 +1,114 @@
 import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import {
+  login,
+  register,
+  getUserInfo,
+  updateUserInfo,
+  deleteUserInfo
+} from "./sql/user";
+import { generateToken, verifyToken } from "./until/jwt";
+
+// 扩展 Express 的 Request 类型
+declare global {
+  namespace Express {
+    interface Request {
+      userId?: number;
+    }
+  }
+}
+
 const app = express();
 
-app.get("/", function (req, res) {
-  res.send("Hello World");
+// 使用 cors 避免跨域问题
+app.use(cors());
+
+// 使用 bodyParser 中间件解析请求体
+app.use(bodyParser.json({ limit: "5mb" }));
+app.use(bodyParser.urlencoded({ limit: "5mb", extended: true }));
+
+app.get("/user/login", async function (req, res) {
+  const data = await login(
+    req.query.userName as string,
+    req.query.password as string
+  );
+  if (data) {
+    const token = generateToken(data.id, data.userName);
+    res.send({
+      result: {
+        token,
+        id: data.id
+      }
+    });
+  } else {
+    res.send({ result: false });
+  }
 });
 
+app.post("/user/register", async function (req, res) {
+  const data = await register(
+    req.body.userName as string,
+    req.body.password as string
+  );
+  res.send({ result: data });
+});
+
+app.get("/user/information", async function (req, res) {
+  const data = await getUserInfo(req.query.userId as string);
+  if (data) {
+    res.send({ result: data });
+  } else {
+    res.send({ result: false });
+  }
+});
+
+app.post("/user/information", verifyToken, async function (req, res) {
+  const id = "" + req.body.id;
+  const time = (req.body.time as string).slice(0, 19).replace("T", " ");
+  const userName = req.body.userName as string;
+  const password = req.body.password as string;
+  const avatar = req.body.avatar as string;
+  const name = req.body.name as string;
+  const sex = req.body.sex as string;
+  const phone = req.body.phone as string;
+  const email = req.body.email as string;
+  const description = req.body.description as string;
+  if (req.userId && "" + req.userId === id) {
+    const data = await updateUserInfo(
+      id,
+      time,
+      userName,
+      password,
+      avatar,
+      name,
+      sex,
+      phone,
+      email,
+      description
+    );
+    res.send({ result: data });
+  } else {
+    res.send({ result: false });
+  }
+});
+
+app.delete("/user/information", verifyToken, async function (req, res) {
+  if (req.userId && "" + req.userId === req.query.userId) {
+    const data = await deleteUserInfo(req.query.userId);
+    res.send({ result: data });
+  } else {
+    res.send({ result: false });
+  }
+});
+
+app.get("/user/verify", verifyToken, async function (req, res) {
+  if (req.userId && "" + req.userId === req.query.userId) {
+    res.send({ result: true });
+  } else {
+    res.send({ result: false });
+  }
+});
+
+console.log("open");
 app.listen(3000);
