@@ -1,6 +1,6 @@
 package com.example.backend2.controller;
 
-import com.example.backend2.entity.Like;
+import com.example.backend2.domain.entity.Like;
 import com.example.backend2.service.LikeService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

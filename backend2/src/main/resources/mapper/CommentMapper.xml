@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.backend2.dao.CommentMapper">
 
-    <resultMap type="com.example.backend2.entity.Comment" id="CommentMap">
+    <resultMap type="com.example.backend2.domain.entity.Comment" id="CommentMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="activityId" column="activity_id" jdbcType="INTEGER"/>
         <result property="userId" column="user_id" jdbcType="INTEGER"/>

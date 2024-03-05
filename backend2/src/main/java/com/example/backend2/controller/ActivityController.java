@@ -1,6 +1,6 @@
 package com.example.backend2.controller;
 
-import com.example.backend2.entity.Activity;
+import com.example.backend2.domain.entity.Activity;
 import com.example.backend2.service.ActivityService;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;

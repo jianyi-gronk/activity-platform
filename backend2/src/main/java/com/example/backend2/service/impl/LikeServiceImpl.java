@@ -2,7 +2,7 @@ package com.example.backend2.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend2.dao.LikeMapper;
-import com.example.backend2.entity.Like;
+import com.example.backend2.domain.entity.Like;
 import com.example.backend2.service.LikeService;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;

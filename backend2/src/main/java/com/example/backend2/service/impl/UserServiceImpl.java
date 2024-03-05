@@ -2,7 +2,7 @@ package com.example.backend2.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend2.dao.UserMapper;
-import com.example.backend2.entity.User;
+import com.example.backend2.domain.entity.User;
 import com.example.backend2.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;

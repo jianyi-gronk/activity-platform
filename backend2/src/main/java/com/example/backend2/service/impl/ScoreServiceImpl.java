@@ -2,7 +2,7 @@ package com.example.backend2.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend2.dao.ScoreMapper;
-import com.example.backend2.entity.Score;
+import com.example.backend2.domain.entity.Score;
 import com.example.backend2.service.ScoreService;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;

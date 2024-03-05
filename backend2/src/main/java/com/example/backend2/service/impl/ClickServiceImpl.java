@@ -2,7 +2,7 @@ package com.example.backend2.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend2.dao.ClickMapper;
-import com.example.backend2.entity.Click;
+import com.example.backend2.domain.entity.Click;
 import com.example.backend2.service.ClickService;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;

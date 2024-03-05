@@ -1,6 +1,6 @@
 package com.example.backend2.controller;
 
-import com.example.backend2.entity.Manager;
+import com.example.backend2.domain.entity.Manager;
 import com.example.backend2.service.ManagerService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

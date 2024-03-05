@@ -1,7 +1,7 @@
 package com.example.backend2.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.backend2.entity.Click;
+import com.example.backend2.domain.entity.Click;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 

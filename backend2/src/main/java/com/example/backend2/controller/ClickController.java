@@ -1,6 +1,6 @@
 package com.example.backend2.controller;
 
-import com.example.backend2.entity.Click;
+import com.example.backend2.domain.entity.Click;
 import com.example.backend2.service.ClickService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

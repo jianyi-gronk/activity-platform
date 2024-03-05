@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.backend2.dao.ClickMapper">
 
-    <resultMap type="com.example.backend2.entity.Click" id="ClickMap">
+    <resultMap type="com.example.backend2.domain.entity.Click" id="ClickMap">
         <result property="activityId" column="activity_id" jdbcType="INTEGER"/>
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
         <result property="time" column="time" jdbcType="TIMESTAMP"/>

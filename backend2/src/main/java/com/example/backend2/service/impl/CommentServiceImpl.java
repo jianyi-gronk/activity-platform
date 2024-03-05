@@ -1,7 +1,7 @@
 package com.example.backend2.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.backend2.entity.Comment;
+import com.example.backend2.domain.entity.Comment;
 import com.example.backend2.dao.CommentMapper;
 import com.example.backend2.service.CommentService;
 import org.springframework.stereotype.Service;

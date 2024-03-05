@@ -1,7 +1,7 @@
 package com.example.backend2.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.example.backend2.entity.Comment;
+import com.example.backend2.domain.entity.Comment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
