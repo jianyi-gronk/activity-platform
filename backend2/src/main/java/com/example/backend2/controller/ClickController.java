@@ -44,7 +44,7 @@ public class ClickController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Click> queryById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(this.clickService.queryById(id));
+        return ResponseEntity.ok(this.clickService.getById(id));
     }
 
     /**
@@ -77,7 +77,7 @@ public class ClickController {
      */
     @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
-        return ResponseEntity.ok(this.clickService.deleteById(id));
+        return ResponseEntity.ok(this.clickService.removeById(id));
     }
 
 }

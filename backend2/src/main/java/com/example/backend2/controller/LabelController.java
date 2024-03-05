@@ -44,7 +44,7 @@ public class LabelController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Label> queryById(@PathVariable("id") Integer id) {
-        return ResponseEntity.ok(this.labelService.queryById(id));
+        return ResponseEntity.ok(this.labelService.getById(id));
     }
 
     /**
@@ -77,7 +77,7 @@ public class LabelController {
      */
     @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Integer id) {
-        return ResponseEntity.ok(this.labelService.deleteById(id));
+        return ResponseEntity.ok(this.labelService.removeById(id));
     }
 
 }

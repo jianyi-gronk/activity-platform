@@ -12,15 +12,6 @@ import org.springframework.data.domain.PageRequest;
  * @since 2024-03-05 22:11:07
  */
 public interface CommentService extends IService<Comment> {
-
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param id 主键
-     * @return 实例对象
-     */
-    Comment queryById(Long id);
-
     /**
      * 分页查询
      *
@@ -45,13 +36,4 @@ public interface CommentService extends IService<Comment> {
      * @return 实例对象
      */
     Comment update(Comment comment);
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param id 主键
-     * @return 是否成功
-     */
-    boolean deleteById(Long id);
-
 }

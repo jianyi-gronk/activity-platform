@@ -44,7 +44,7 @@ public class UserController {
      */
     @GetMapping("{id}")
     public ResponseEntity<User> queryById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(this.userService.queryById(id));
+        return ResponseEntity.ok(this.userService.getById(id));
     }
 
     /**
@@ -77,7 +77,7 @@ public class UserController {
      */
     @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
-        return ResponseEntity.ok(this.userService.deleteById(id));
+        return ResponseEntity.ok(this.userService.removeById(id));
     }
 
 }

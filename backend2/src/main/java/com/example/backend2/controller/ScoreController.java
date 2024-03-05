@@ -44,7 +44,7 @@ public class ScoreController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Score> queryById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(this.scoreService.queryById(id));
+        return ResponseEntity.ok(this.scoreService.getById(id));
     }
 
     /**
@@ -77,7 +77,7 @@ public class ScoreController {
      */
     @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
-        return ResponseEntity.ok(this.scoreService.deleteById(id));
+        return ResponseEntity.ok(this.scoreService.removeById(id));
     }
 
 }

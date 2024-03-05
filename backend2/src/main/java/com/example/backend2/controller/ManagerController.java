@@ -44,7 +44,7 @@ public class ManagerController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Manager> queryById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(this.managerService.queryById(id));
+        return ResponseEntity.ok(this.managerService.getById(id));
     }
 
     /**
@@ -77,7 +77,7 @@ public class ManagerController {
      */
     @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
-        return ResponseEntity.ok(this.managerService.deleteById(id));
+        return ResponseEntity.ok(this.managerService.removeById(id));
     }
 
 }

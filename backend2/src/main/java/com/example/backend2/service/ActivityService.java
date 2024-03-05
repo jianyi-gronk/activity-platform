@@ -12,15 +12,6 @@ import org.springframework.data.domain.PageRequest;
  * @since 2024-03-05 22:11:05
  */
 public interface ActivityService extends IService<Activity> {
-
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param id 主键
-     * @return 实例对象
-     */
-    Activity queryById(Long id);
-
     /**
      * 分页查询
      *
@@ -45,13 +36,4 @@ public interface ActivityService extends IService<Activity> {
      * @return 实例对象
      */
     Activity update(Activity activity);
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param id 主键
-     * @return 是否成功
-     */
-    boolean deleteById(Long id);
-
 }

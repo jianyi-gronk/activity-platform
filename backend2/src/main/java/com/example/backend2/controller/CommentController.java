@@ -44,7 +44,7 @@ public class CommentController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Comment> queryById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(this.commentService.queryById(id));
+        return ResponseEntity.ok(this.commentService.getById(id));
     }
 
     /**
@@ -77,7 +77,7 @@ public class CommentController {
      */
     @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
-        return ResponseEntity.ok(this.commentService.deleteById(id));
+        return ResponseEntity.ok(this.commentService.removeById(id));
     }
 
 }

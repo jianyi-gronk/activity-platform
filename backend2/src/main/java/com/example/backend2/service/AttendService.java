@@ -12,15 +12,6 @@ import org.springframework.data.domain.PageRequest;
  * @since 2024-03-05 22:11:06
  */
 public interface AttendService extends IService<Attend> {
-
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param activityId 主键
-     * @return 实例对象
-     */
-    Attend queryById(Long activityId);
-
     /**
      * 分页查询
      *
@@ -45,13 +36,4 @@ public interface AttendService extends IService<Attend> {
      * @return 实例对象
      */
     Attend update(Attend attend);
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param activityId 主键
-     * @return 是否成功
-     */
-    boolean deleteById(Long activityId);
-
 }

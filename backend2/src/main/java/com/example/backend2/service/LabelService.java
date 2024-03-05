@@ -12,15 +12,6 @@ import org.springframework.data.domain.PageRequest;
  * @since 2024-03-05 22:11:07
  */
 public interface LabelService extends IService<Label> {
-
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param activityId 主键
-     * @return 实例对象
-     */
-    Label queryById(Integer activityId);
-
     /**
      * 分页查询
      *
@@ -45,13 +36,4 @@ public interface LabelService extends IService<Label> {
      * @return 实例对象
      */
     Label update(Label label);
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param activityId 主键
-     * @return 是否成功
-     */
-    boolean deleteById(Integer activityId);
-
 }

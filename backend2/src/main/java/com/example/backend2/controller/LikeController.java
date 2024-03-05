@@ -44,7 +44,7 @@ public class LikeController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Like> queryById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(this.likeService.queryById(id));
+        return ResponseEntity.ok(this.likeService.getById(id));
     }
 
     /**
@@ -77,7 +77,7 @@ public class LikeController {
      */
     @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
-        return ResponseEntity.ok(this.likeService.deleteById(id));
+        return ResponseEntity.ok(this.likeService.removeById(id));
     }
 
 }

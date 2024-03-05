@@ -12,15 +12,6 @@ import org.springframework.data.domain.PageRequest;
  * @since 2024-03-05 22:11:06
  */
 public interface ClickService extends IService<Click> {
-
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param activityId 主键
-     * @return 实例对象
-     */
-    Click queryById(Long activityId);
-
     /**
      * 分页查询
      *
@@ -45,13 +36,4 @@ public interface ClickService extends IService<Click> {
      * @return 实例对象
      */
     Click update(Click click);
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param activityId 主键
-     * @return 是否成功
-     */
-    boolean deleteById(Long activityId);
-
 }

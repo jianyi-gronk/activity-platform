@@ -12,15 +12,6 @@ import org.springframework.data.domain.PageRequest;
  * @since 2024-03-05 22:11:08
  */
 public interface ScoreService extends IService<Score> {
-
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param activityId 主键
-     * @return 实例对象
-     */
-    Score queryById(Long activityId);
-
     /**
      * 分页查询
      *
@@ -45,13 +36,4 @@ public interface ScoreService extends IService<Score> {
      * @return 实例对象
      */
     Score update(Score score);
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param activityId 主键
-     * @return 是否成功
-     */
-    boolean deleteById(Long activityId);
-
 }

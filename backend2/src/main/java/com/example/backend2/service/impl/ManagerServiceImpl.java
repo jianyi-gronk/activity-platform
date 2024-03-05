@@ -1,8 +1,8 @@
 package com.example.backend2.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.backend2.mapper.ManagerMapper;
 import com.example.backend2.domain.entity.Manager;
+import com.example.backend2.mapper.ManagerMapper;
 import com.example.backend2.service.ManagerService;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
@@ -29,7 +29,7 @@ public class ManagerServiceImpl extends ServiceImpl<ManagerMapper, Manager> impl
      */
     @Override
     public Manager queryById(Long activityId) {
-        return this.managerMapper.queryById(activityId);
+        return getById(activityId);
     }
 
     /**
@@ -53,7 +53,7 @@ public class ManagerServiceImpl extends ServiceImpl<ManagerMapper, Manager> impl
      */
     @Override
     public Manager insert(Manager manager) {
-        this.managerMapper.insert(manager);
+        save(manager);
         return manager;
     }
 
@@ -65,8 +65,8 @@ public class ManagerServiceImpl extends ServiceImpl<ManagerMapper, Manager> impl
      */
     @Override
     public Manager update(Manager manager) {
-        this.managerMapper.update(manager);
-        return this.queryById(manager.getActivityId());
+        updateById(manager);
+        return getById(manager.getActivityId());
     }
 
     /**
@@ -77,6 +77,6 @@ public class ManagerServiceImpl extends ServiceImpl<ManagerMapper, Manager> impl
      */
     @Override
     public boolean deleteById(Long activityId) {
-        return this.managerMapper.deleteById(activityId) > 0;
+        return removeById(activityId);
     }
 }

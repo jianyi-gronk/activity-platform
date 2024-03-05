@@ -1,8 +1,8 @@
 package com.example.backend2.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.backend2.mapper.UserMapper;
 import com.example.backend2.domain.entity.User;
+import com.example.backend2.mapper.UserMapper;
 import com.example.backend2.service.UserService;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
@@ -29,7 +29,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public User queryById(Long id) {
-        return this.userMapper.queryById(id);
+        return getById(id);
     }
 
     /**
@@ -53,7 +53,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public User insert(User user) {
-        this.userMapper.insert(user);
+        save(user);
         return user;
     }
 
@@ -65,8 +65,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public User update(User user) {
-        this.userMapper.update(user);
-        return this.queryById(user.getId());
+        updateById(user);
+        return getById(user.getId());
     }
 
     /**
@@ -77,6 +77,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
      */
     @Override
     public boolean deleteById(Long id) {
-        return this.userMapper.deleteById(id) > 0;
+        return removeById(id);
     }
 }

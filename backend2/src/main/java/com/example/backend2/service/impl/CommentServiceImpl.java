@@ -4,12 +4,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend2.domain.entity.Comment;
 import com.example.backend2.mapper.CommentMapper;
 import com.example.backend2.service.CommentService;
-import org.springframework.stereotype.Service;
+import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-
-import jakarta.annotation.Resource;
+import org.springframework.stereotype.Service;
 
 /**
  * (Comment)表服务实现类
@@ -21,17 +20,6 @@ import jakarta.annotation.Resource;
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
     @Resource
     private CommentMapper commentMapper;
-
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param id 主键
-     * @return 实例对象
-     */
-    @Override
-    public Comment queryById(Long id) {
-        return this.commentMapper.queryById(id);
-    }
 
     /**
      * 分页查询
@@ -54,7 +42,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      */
     @Override
     public Comment insert(Comment comment) {
-        this.commentMapper.insert(comment);
+        save(comment);
         return comment;
     }
 
@@ -66,18 +54,7 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
      */
     @Override
     public Comment update(Comment comment) {
-        this.commentMapper.update(comment);
-        return this.queryById(comment.getId());
-    }
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param id 主键
-     * @return 是否成功
-     */
-    @Override
-    public boolean deleteById(Long id) {
-        return this.commentMapper.deleteById(id) > 0;
+        updateById(comment);
+        return getById(comment.getId());
     }
 }

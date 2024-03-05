@@ -22,17 +22,6 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
     private ActivityMapper activityMapper;
 
     /**
-     * 通过ID查询单条数据
-     *
-     * @param id 主键
-     * @return 实例对象
-     */
-    @Override
-    public Activity queryById(Long id) {
-        return this.activityMapper.queryById(id);
-    }
-
-    /**
      * 分页查询
      *
      * @param activity    筛选条件
@@ -67,16 +56,5 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
     public Activity update(Activity activity) {
         updateById(activity);
         return getById(activity.getId());
-    }
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param id 主键
-     * @return 是否成功
-     */
-    @Override
-    public boolean deleteById(Long id) {
-        return removeById(id);
     }
 }

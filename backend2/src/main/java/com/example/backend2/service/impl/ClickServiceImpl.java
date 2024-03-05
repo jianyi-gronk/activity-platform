@@ -1,8 +1,8 @@
 package com.example.backend2.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.backend2.mapper.ClickMapper;
 import com.example.backend2.domain.entity.Click;
+import com.example.backend2.mapper.ClickMapper;
 import com.example.backend2.service.ClickService;
 import jakarta.annotation.Resource;
 import org.springframework.data.domain.Page;
@@ -20,17 +20,6 @@ import org.springframework.stereotype.Service;
 public class ClickServiceImpl extends ServiceImpl<ClickMapper, Click> implements ClickService {
     @Resource
     private ClickMapper clickMapper;
-
-    /**
-     * 通过ID查询单条数据
-     *
-     * @param activityId 主键
-     * @return 实例对象
-     */
-    @Override
-    public Click queryById(Long activityId) {
-        return this.clickMapper.queryById(activityId);
-    }
 
     /**
      * 分页查询
@@ -53,7 +42,7 @@ public class ClickServiceImpl extends ServiceImpl<ClickMapper, Click> implements
      */
     @Override
     public Click insert(Click click) {
-        this.clickMapper.insert(click);
+        save(click);
         return click;
     }
 
@@ -65,18 +54,7 @@ public class ClickServiceImpl extends ServiceImpl<ClickMapper, Click> implements
      */
     @Override
     public Click update(Click click) {
-        this.clickMapper.update(click);
-        return this.queryById(click.getActivityId());
-    }
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param activityId 主键
-     * @return 是否成功
-     */
-    @Override
-    public boolean deleteById(Long activityId) {
-        return this.clickMapper.deleteById(activityId) > 0;
+        updateById(click);
+        return getById(click.getActivityId());
     }
 }

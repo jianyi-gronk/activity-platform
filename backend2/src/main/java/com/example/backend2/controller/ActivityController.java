@@ -43,7 +43,7 @@ public class ActivityController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Activity> queryById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(this.activityService.queryById(id));
+        return ResponseEntity.ok(this.activityService.getById(id));
     }
 
     /**
@@ -76,8 +76,7 @@ public class ActivityController {
      */
     @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
-        return ResponseEntity.ok(this.activityService.deleteById(id));
+        return ResponseEntity.ok(this.activityService.removeById(id));
     }
-
 }
 

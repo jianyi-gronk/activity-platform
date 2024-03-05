@@ -23,17 +23,6 @@ public class LabelServiceImpl  extends ServiceImpl<LabelMapper, Label>  implemen
     private LabelMapper labelMapper;
 
     /**
-     * 通过ID查询单条数据
-     *
-     * @param activityId 主键
-     * @return 实例对象
-     */
-    @Override
-    public Label queryById(Integer activityId) {
-        return this.labelMapper.queryById(activityId);
-    }
-
-    /**
      * 分页查询
      *
      * @param label       筛选条件
@@ -54,7 +43,7 @@ public class LabelServiceImpl  extends ServiceImpl<LabelMapper, Label>  implemen
      */
     @Override
     public Label insert(Label label) {
-        this.labelMapper.insert(label);
+        save(label);
         return label;
     }
 
@@ -66,18 +55,7 @@ public class LabelServiceImpl  extends ServiceImpl<LabelMapper, Label>  implemen
      */
     @Override
     public Label update(Label label) {
-        this.labelMapper.update(label);
-        return this.queryById(label.getActivityId());
-    }
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param activityId 主键
-     * @return 是否成功
-     */
-    @Override
-    public boolean deleteById(Integer activityId) {
-        return this.labelMapper.deleteById(activityId) > 0;
+        updateById(label);
+        return getById(label.getActivityId());
     }
 }

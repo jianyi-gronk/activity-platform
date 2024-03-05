@@ -44,7 +44,7 @@ public class AttendController {
      */
     @GetMapping("{id}")
     public ResponseEntity<Attend> queryById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(this.attendService.queryById(id));
+        return ResponseEntity.ok(this.attendService.getById(id));
     }
 
     /**
@@ -77,7 +77,7 @@ public class AttendController {
      */
     @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
-        return ResponseEntity.ok(this.attendService.deleteById(id));
+        return ResponseEntity.ok(this.attendService.removeById(id));
     }
 
 }
