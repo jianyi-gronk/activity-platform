@@ -1,5 +1,8 @@
 package com.example.backend2.domain.entity;
 
+import lombok.*;
+import lombok.experimental.Accessors;
+
 import java.io.Serializable;
 
 /**
@@ -8,6 +11,12 @@ import java.io.Serializable;
  * @author makejava
  * @since 2024-03-05 22:11:06
  */
+@Data
+@Builder
+@Accessors(chain = true)
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString(callSuper = true)
 public class Comment implements Serializable {
     private static final long serialVersionUID = -33866981742778796L;
 
@@ -20,39 +29,5 @@ public class Comment implements Serializable {
      * 评论内容
      */
     private String content;
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getActivityId() {
-        return activityId;
-    }
-
-    public void setActivityId(Long activityId) {
-        this.activityId = activityId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
 }
 

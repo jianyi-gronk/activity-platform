@@ -1,7 +1,7 @@
 package com.example.backend2.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.backend2.dao.ManagerMapper;
+import com.example.backend2.mapper.ManagerMapper;
 import com.example.backend2.domain.entity.Manager;
 import com.example.backend2.service.ManagerService;
 import jakarta.annotation.Resource;

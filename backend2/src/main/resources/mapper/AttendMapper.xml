@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.backend2.dao.AttendMapper">
+<mapper namespace="com.example.backend2.mapper.AttendMapper">
 
     <resultMap type="com.example.backend2.domain.entity.Attend" id="AttendMap">
         <result property="activityId" column="activity_id" jdbcType="INTEGER"/>

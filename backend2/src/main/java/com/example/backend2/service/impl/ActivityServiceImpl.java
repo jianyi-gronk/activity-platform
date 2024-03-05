@@ -1,7 +1,7 @@
 package com.example.backend2.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.backend2.dao.ActivityMapper;
+import com.example.backend2.mapper.ActivityMapper;
 import com.example.backend2.domain.entity.Activity;
 import com.example.backend2.service.ActivityService;
 import jakarta.annotation.Resource;
@@ -41,7 +41,6 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
      */
     @Override
     public Page<Activity> queryByPage(Activity activity, PageRequest pageRequest) {
-
         long total = this.activityMapper.count(activity);
         return new PageImpl<>(this.activityMapper.queryAllByLimit(activity, pageRequest), pageRequest, total);
     }

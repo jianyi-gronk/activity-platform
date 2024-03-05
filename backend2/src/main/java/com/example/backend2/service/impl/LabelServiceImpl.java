@@ -2,7 +2,7 @@ package com.example.backend2.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend2.domain.entity.Label;
-import com.example.backend2.dao.LabelMapper;
+import com.example.backend2.mapper.LabelMapper;
 import com.example.backend2.service.LabelService;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
