@@ -1,13 +1,12 @@
 package com.example.backend2.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.backend2.mapper.ActivityMapper;
 import com.example.backend2.domain.entity.Activity;
+import com.example.backend2.mapper.ActivityMapper;
 import com.example.backend2.service.ActivityService;
-import jakarta.annotation.Resource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,20 +17,24 @@ import org.springframework.stereotype.Service;
  */
 @Service("activityService")
 public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> implements ActivityService {
-    @Resource
-    private ActivityMapper activityMapper;
-
     /**
      * 分页查询
      *
-     * @param activity    筛选条件
-     * @param pageRequest 分页对象
+     * @param activity 筛选条件
+     * @param page     分页对象
      * @return 查询结果
      */
     @Override
-    public Page<Activity> queryByPage(Activity activity, PageRequest pageRequest) {
-        long total = this.activityMapper.count(activity);
-        return new PageImpl<>(this.activityMapper.queryAllByLimit(activity, pageRequest), pageRequest, total);
+    public Page<Activity> queryByPage(Activity activity, Page<Activity> page) {
+        LambdaQueryWrapper<Activity> wrapper = new LambdaQueryWrapper<Activity>() //
+                .eq(activity.getId() != null, Activity::getId, activity.getId()) //
+                .eq(activity.getUserId() != null, Activity::getUserId, activity.getUserId()) //
+                .like(StrUtil.isNotBlank(activity.getTitle()), Activity::getTitle, activity.getTitle()) //
+                .like(StrUtil.isNotBlank(activity.getDescription()), Activity::getDescription, activity.getDescription()) //
+                .ge(activity.getStartTime() != null, Activity::getStartTime, activity.getStartTime()) //
+                .le(activity.getEndTime() != null, Activity::getEndTime, activity.getEndTime()) //
+                .like(StrUtil.isNotBlank(activity.getLocation()), Activity::getLocation, activity.getLocation());
+        return page(page, wrapper);
     }
 
     /**

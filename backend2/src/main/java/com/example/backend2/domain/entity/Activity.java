@@ -1,9 +1,11 @@
 package com.example.backend2.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -19,11 +21,14 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)
+@Schema(name = "活动", description = "$!{table.comment}")
 public class Activity implements Serializable {
+    @Serial
     private static final long serialVersionUID = -86392116839979539L;
     /**
-     * 活动 id
+     * 活动ID
      */
+    @Schema(description = "活动ID")
     private Long id;
     /**
      * 创建者 id

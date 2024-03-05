@@ -22,17 +22,6 @@ public class ManagerServiceImpl extends ServiceImpl<ManagerMapper, Manager> impl
     private ManagerMapper managerMapper;
 
     /**
-     * 通过ID查询单条数据
-     *
-     * @param activityId 主键
-     * @return 实例对象
-     */
-    @Override
-    public Manager queryById(Long activityId) {
-        return getById(activityId);
-    }
-
-    /**
      * 分页查询
      *
      * @param manager     筛选条件
@@ -67,16 +56,5 @@ public class ManagerServiceImpl extends ServiceImpl<ManagerMapper, Manager> impl
     public Manager update(Manager manager) {
         updateById(manager);
         return getById(manager.getActivityId());
-    }
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param activityId 主键
-     * @return 是否成功
-     */
-    @Override
-    public boolean deleteById(Long activityId) {
-        return removeById(activityId);
     }
 }

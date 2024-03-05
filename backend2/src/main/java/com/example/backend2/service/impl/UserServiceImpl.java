@@ -22,17 +22,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private UserMapper userMapper;
 
     /**
-     * 通过ID查询单条数据
-     *
-     * @param id 主键
-     * @return 实例对象
-     */
-    @Override
-    public User queryById(Long id) {
-        return getById(id);
-    }
-
-    /**
      * 分页查询
      *
      * @param user        筛选条件
@@ -67,16 +56,5 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     public User update(User user) {
         updateById(user);
         return getById(user.getId());
-    }
-
-    /**
-     * 通过主键删除数据
-     *
-     * @param id 主键
-     * @return 是否成功
-     */
-    @Override
-    public boolean deleteById(Long id) {
-        return removeById(id);
     }
 }
