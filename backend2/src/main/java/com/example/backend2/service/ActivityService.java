@@ -19,14 +19,6 @@ public interface ActivityService extends IService<Activity> {
      * @return 查询结果
      */
     Page<Activity> queryByPage(Activity activity, Page<Activity> page);
-//    /**
-//     * 分页查询
-//     *
-//     * @param activity    筛选条件
-//     * @param pageRequest 分页对象
-//     * @return 查询结果
-//     */
-//    Page<Activity> queryByPage(Activity activity, PageRequest pageRequest);
 
     /**
      * 新增数据

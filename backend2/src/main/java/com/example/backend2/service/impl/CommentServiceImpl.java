@@ -1,13 +1,12 @@
 package com.example.backend2.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend2.domain.entity.Comment;
 import com.example.backend2.mapper.CommentMapper;
 import com.example.backend2.service.CommentService;
-import jakarta.annotation.Resource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,20 +17,21 @@ import org.springframework.stereotype.Service;
  */
 @Service("commentService")
 public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> implements CommentService {
-    @Resource
-    private CommentMapper commentMapper;
-
     /**
      * 分页查询
      *
-     * @param comment     筛选条件
-     * @param pageRequest 分页对象
+     * @param comment 筛选条件
+     * @param page    分页对象
      * @return 查询结果
      */
     @Override
-    public Page<Comment> queryByPage(Comment comment, PageRequest pageRequest) {
-        long total = this.commentMapper.count(comment);
-        return new PageImpl<>(this.commentMapper.queryAllByLimit(comment, pageRequest), pageRequest, total);
+    public Page<Comment> queryByPage(Comment comment, Page<Comment> page) {
+        LambdaQueryWrapper<Comment> wrapper = new LambdaQueryWrapper<Comment>() //
+                .eq(comment.getId() != null, Comment::getId, comment.getId()) //
+                .eq(comment.getActivityId() != null, Comment::getActivityId, comment.getActivityId()) //
+                .eq(comment.getUserId() != null, Comment::getUserId, comment.getUserId()) //
+                .like(StrUtil.isNotBlank(comment.getContent()), Comment::getContent, comment.getContent());
+        return page(page, wrapper);
     }
 
     /**

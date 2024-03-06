@@ -2,12 +2,10 @@ package com.example.backend2.controller;
 
 import com.example.backend2.domain.entity.Label;
 import com.example.backend2.service.LabelService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import jakarta.annotation.Resource;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.annotation.Resource;
 
 /**
  * (Label)表控制层
@@ -27,13 +25,14 @@ public class LabelController {
     /**
      * 分页查询
      *
-     * @param label       筛选条件
-     * @param pageRequest 分页对象
+     * @param label    筛选条件
+     * @param pageNo   页码
+     * @param pageSize 页面尺寸
      * @return 查询结果
      */
     @GetMapping
-    public ResponseEntity<Page<Label>> queryByPage(Label label, PageRequest pageRequest) {
-        return ResponseEntity.ok(this.labelService.queryByPage(label, pageRequest));
+    public ResponseEntity<Page<Label>> queryByPage(Label label, Integer pageNo, Integer pageSize) {
+        return ResponseEntity.ok(this.labelService.queryByPage(label, new Page<>(pageNo, pageSize)));
     }
 
     /**
@@ -42,7 +41,7 @@ public class LabelController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Label> queryById(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(this.labelService.getById(id));
     }
@@ -75,10 +74,9 @@ public class LabelController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(Integer id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable Integer id) {
         return ResponseEntity.ok(this.labelService.removeById(id));
     }
-
 }
 

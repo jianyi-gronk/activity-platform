@@ -1,13 +1,11 @@
 package com.example.backend2.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.backend2.domain.entity.Attend;
 import com.example.backend2.service.AttendService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import jakarta.annotation.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.annotation.Resource;
 
 /**
  * (Attend)表控制层
@@ -27,13 +25,14 @@ public class AttendController {
     /**
      * 分页查询
      *
-     * @param attend      筛选条件
-     * @param pageRequest 分页对象
+     * @param attend   筛选条件
+     * @param pageNo   页码
+     * @param pageSize 页面尺寸
      * @return 查询结果
      */
     @GetMapping
-    public ResponseEntity<Page<Attend>> queryByPage(Attend attend, PageRequest pageRequest) {
-        return ResponseEntity.ok(this.attendService.queryByPage(attend, pageRequest));
+    public ResponseEntity<Page<Attend>> queryByPage(Attend attend, Integer pageNo, Integer pageSize) {
+        return ResponseEntity.ok(this.attendService.queryByPage(attend, new Page<>(pageNo, pageSize)));
     }
 
     /**
@@ -42,7 +41,7 @@ public class AttendController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Attend> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.attendService.getById(id));
     }
@@ -75,10 +74,9 @@ public class AttendController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok(this.attendService.removeById(id));
     }
-
 }
 

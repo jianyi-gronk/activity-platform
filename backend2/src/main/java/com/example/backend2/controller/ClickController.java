@@ -1,13 +1,11 @@
 package com.example.backend2.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.backend2.domain.entity.Click;
 import com.example.backend2.service.ClickService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import jakarta.annotation.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.annotation.Resource;
 
 /**
  * (Click)表控制层
@@ -27,13 +25,14 @@ public class ClickController {
     /**
      * 分页查询
      *
-     * @param click       筛选条件
-     * @param pageRequest 分页对象
+     * @param click    筛选条件
+     * @param pageNo   页码
+     * @param pageSize 页面尺寸
      * @return 查询结果
      */
     @GetMapping
-    public ResponseEntity<Page<Click>> queryByPage(Click click, PageRequest pageRequest) {
-        return ResponseEntity.ok(this.clickService.queryByPage(click, pageRequest));
+    public ResponseEntity<Page<Click>> queryByPage(Click click, Integer pageNo, Integer pageSize) {
+        return ResponseEntity.ok(this.clickService.queryByPage(click, new Page<>(pageNo, pageSize)));
     }
 
     /**
@@ -42,7 +41,7 @@ public class ClickController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Click> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.clickService.getById(id));
     }
@@ -75,10 +74,9 @@ public class ClickController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok(this.clickService.removeById(id));
     }
-
 }
 

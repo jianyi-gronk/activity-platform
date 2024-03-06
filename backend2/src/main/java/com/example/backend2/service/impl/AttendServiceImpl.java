@@ -1,13 +1,11 @@
 package com.example.backend2.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend2.domain.entity.Attend;
 import com.example.backend2.mapper.AttendMapper;
 import com.example.backend2.service.AttendService;
-import jakarta.annotation.Resource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,20 +16,19 @@ import org.springframework.stereotype.Service;
  */
 @Service("attendService")
 public class AttendServiceImpl extends ServiceImpl<AttendMapper, Attend> implements AttendService {
-    @Resource
-    private AttendMapper attendMapper;
-
     /**
      * 分页查询
      *
-     * @param attend      筛选条件
-     * @param pageRequest 分页对象
+     * @param attend 筛选条件
+     * @param page   分页对象
      * @return 查询结果
      */
     @Override
-    public Page<Attend> queryByPage(Attend attend, PageRequest pageRequest) {
-        long total = this.attendMapper.count(attend);
-        return new PageImpl<>(this.attendMapper.queryAllByLimit(attend, pageRequest), pageRequest, total);
+    public Page<Attend> queryByPage(Attend attend, Page<Attend> page) {
+        LambdaQueryWrapper<Attend> wrapper = new LambdaQueryWrapper<Attend>() //
+                .eq(attend.getActivityId() != null, Attend::getActivityId, attend.getActivityId()) //
+                .eq(attend.getUserId() != null, Attend::getUserId, attend.getUserId());
+        return page(page, wrapper);
     }
 
     /**

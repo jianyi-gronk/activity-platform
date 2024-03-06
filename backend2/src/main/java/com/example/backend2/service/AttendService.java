@@ -1,9 +1,8 @@
 package com.example.backend2.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.backend2.domain.entity.Attend;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 /**
  * (Attend)表服务接口
@@ -15,11 +14,11 @@ public interface AttendService extends IService<Attend> {
     /**
      * 分页查询
      *
-     * @param attend      筛选条件
-     * @param pageRequest 分页对象
+     * @param attend 筛选条件
+     * @param page   分页对象
      * @return 查询结果
      */
-    Page<Attend> queryByPage(Attend attend, PageRequest pageRequest);
+    Page<Attend> queryByPage(Attend attend, Page<Attend> page);
 
     /**
      * 新增数据

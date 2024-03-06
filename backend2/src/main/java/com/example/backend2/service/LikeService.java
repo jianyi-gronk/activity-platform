@@ -1,9 +1,8 @@
 package com.example.backend2.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.backend2.domain.entity.Like;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 /**
  * (Like)表服务接口
@@ -15,11 +14,11 @@ public interface LikeService extends IService<Like> {
     /**
      * 分页查询
      *
-     * @param like        筛选条件
-     * @param pageRequest 分页对象
+     * @param like 筛选条件
+     * @param page 分页对象
      * @return 查询结果
      */
-    Page<Like> queryByPage(Like like, PageRequest pageRequest);
+    Page<Like> queryByPage(Like like, Page<Like> page);
 
     /**
      * 新增数据

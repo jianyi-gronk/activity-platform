@@ -2,12 +2,10 @@ package com.example.backend2.controller;
 
 import com.example.backend2.domain.entity.Manager;
 import com.example.backend2.service.ManagerService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import jakarta.annotation.Resource;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.annotation.Resource;
 
 /**
  * (Manager)表控制层
@@ -27,13 +25,14 @@ public class ManagerController {
     /**
      * 分页查询
      *
-     * @param manager     筛选条件
-     * @param pageRequest 分页对象
+     * @param manager  筛选条件
+     * @param pageNo   页码
+     * @param pageSize 页面尺寸
      * @return 查询结果
      */
     @GetMapping
-    public ResponseEntity<Page<Manager>> queryByPage(Manager manager, PageRequest pageRequest) {
-        return ResponseEntity.ok(this.managerService.queryByPage(manager, pageRequest));
+    public ResponseEntity<Page<Manager>> queryByPage(Manager manager, Integer pageNo, Integer pageSize) {
+        return ResponseEntity.ok(this.managerService.queryByPage(manager, new Page<>(pageNo, pageSize)));
     }
 
     /**
@@ -42,7 +41,7 @@ public class ManagerController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Manager> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.managerService.getById(id));
     }
@@ -75,8 +74,8 @@ public class ManagerController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok(this.managerService.removeById(id));
     }
 

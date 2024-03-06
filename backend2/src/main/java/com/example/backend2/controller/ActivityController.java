@@ -46,7 +46,7 @@ public class ActivityController {
      * @return 单条数据
      */
     @Operation(summary = "通过主键查询单条数据", description = "通过主键查询单条数据")
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Activity> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.activityService.getById(id));
     }
@@ -82,8 +82,8 @@ public class ActivityController {
      * @return 删除是否成功
      */
     @Operation(summary = "删除数据", description = "删除数据")
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok(this.activityService.removeById(id));
     }
 }

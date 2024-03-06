@@ -1,13 +1,11 @@
 package com.example.backend2.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend2.domain.entity.Score;
 import com.example.backend2.mapper.ScoreMapper;
 import com.example.backend2.service.ScoreService;
-import jakarta.annotation.Resource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,20 +16,20 @@ import org.springframework.stereotype.Service;
  */
 @Service("scoreService")
 public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements ScoreService {
-    @Resource
-    private ScoreMapper scoreMapper;
-
     /**
      * 分页查询
      *
-     * @param score       筛选条件
-     * @param pageRequest 分页对象
+     * @param score 筛选条件
+     * @param page  分页对象
      * @return 查询结果
      */
     @Override
-    public Page<Score> queryByPage(Score score, PageRequest pageRequest) {
-        long total = this.scoreMapper.count(score);
-        return new PageImpl<>(this.scoreMapper.queryAllByLimit(score, pageRequest), pageRequest, total);
+    public Page<Score> queryByPage(Score score, Page<Score> page) {
+        LambdaQueryWrapper<Score> wrapper = new LambdaQueryWrapper<Score>() //
+                .eq(score.getActivityId() != null, Score::getActivityId, score.getActivityId()) //
+                .eq(score.getUserId() != null, Score::getUserId, score.getUserId()) //
+                .eq(score.getScore() != null, Score::getScore, score.getScore());
+        return page(page, wrapper);
     }
 
     /**

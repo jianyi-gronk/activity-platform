@@ -1,13 +1,13 @@
 package com.example.backend2.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend2.domain.entity.User;
 import com.example.backend2.mapper.UserMapper;
 import com.example.backend2.service.UserService;
 import jakarta.annotation.Resource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,14 +24,22 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     /**
      * 分页查询
      *
-     * @param user        筛选条件
-     * @param pageRequest 分页对象
+     * @param user 筛选条件
+     * @param page 分页对象
      * @return 查询结果
      */
     @Override
-    public Page<User> queryByPage(User user, PageRequest pageRequest) {
-        long total = this.userMapper.count(user);
-        return new PageImpl<>(this.userMapper.queryAllByLimit(user, pageRequest), pageRequest, total);
+    public Page<User> queryByPage(User user, Page<User> page) {
+        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<User>() //
+                .eq(user.getId() != null, User::getId, user.getId()) //
+                .eq(user.getTime() != null, User::getTime, user.getTime()) //
+                .like(StrUtil.isNotBlank(user.getUsername()), User::getUsername, user.getUsername()) //
+                .like(StrUtil.isNotBlank(user.getName()), User::getName, user.getName()) //
+                .eq(StrUtil.isNotBlank(user.getSex()), User::getSex, user.getSex()) //
+                .like(StrUtil.isNotBlank(user.getPhone()), User::getPhone, user.getPhone()) //
+                .like(StrUtil.isNotBlank(user.getEmail()), User::getEmail, user.getEmail()) //
+                .like(StrUtil.isNotBlank(user.getDescription()), User::getDescription, user.getDescription());
+        return page(page, wrapper);
     }
 
     /**

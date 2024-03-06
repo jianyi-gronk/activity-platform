@@ -1,13 +1,11 @@
 package com.example.backend2.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend2.domain.entity.Manager;
 import com.example.backend2.mapper.ManagerMapper;
 import com.example.backend2.service.ManagerService;
-import jakarta.annotation.Resource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,20 +16,19 @@ import org.springframework.stereotype.Service;
  */
 @Service("managerService")
 public class ManagerServiceImpl extends ServiceImpl<ManagerMapper, Manager> implements ManagerService {
-    @Resource
-    private ManagerMapper managerMapper;
-
     /**
      * 分页查询
      *
-     * @param manager     筛选条件
-     * @param pageRequest 分页对象
+     * @param manager 筛选条件
+     * @param page    分页对象
      * @return 查询结果
      */
     @Override
-    public Page<Manager> queryByPage(Manager manager, PageRequest pageRequest) {
-        long total = this.managerMapper.count(manager);
-        return new PageImpl<>(this.managerMapper.queryAllByLimit(manager, pageRequest), pageRequest, total);
+    public Page<Manager> queryByPage(Manager manager, Page<Manager> page) {
+        LambdaQueryWrapper<Manager> wrapper = new LambdaQueryWrapper<Manager>() //
+                .eq(manager.getActivityId() != null, Manager::getActivityId, manager.getActivityId()) //
+                .eq(manager.getUserId() != null, Manager::getUserId, manager.getUserId());
+        return page(page, wrapper);
     }
 
     /**

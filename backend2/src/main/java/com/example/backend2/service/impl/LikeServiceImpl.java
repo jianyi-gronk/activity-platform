@@ -1,13 +1,11 @@
 package com.example.backend2.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.backend2.mapper.LikeMapper;
 import com.example.backend2.domain.entity.Like;
+import com.example.backend2.mapper.LikeMapper;
 import com.example.backend2.service.LikeService;
-import jakarta.annotation.Resource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,20 +16,19 @@ import org.springframework.stereotype.Service;
  */
 @Service("likeService")
 public class LikeServiceImpl extends ServiceImpl<LikeMapper, Like> implements LikeService {
-    @Resource
-    private LikeMapper likeMapper;
-
     /**
      * 分页查询
      *
-     * @param like        筛选条件
-     * @param pageRequest 分页对象
+     * @param like 筛选条件
+     * @param page 分页对象
      * @return 查询结果
      */
     @Override
-    public Page<Like> queryByPage(Like like, PageRequest pageRequest) {
-        long total = this.likeMapper.count(like);
-        return new PageImpl<>(this.likeMapper.queryAllByLimit(like, pageRequest), pageRequest, total);
+    public Page<Like> queryByPage(Like like, Page<Like> page) {
+        LambdaQueryWrapper<Like> wrapper = new LambdaQueryWrapper<Like>() //
+                .eq(like.getActivityId() != null, Like::getActivityId, like.getActivityId()) //
+                .eq(like.getUserId() != null, Like::getUserId, like.getUserId());
+        return page(page, wrapper);
     }
 
     /**

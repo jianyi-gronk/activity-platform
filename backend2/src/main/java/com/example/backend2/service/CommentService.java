@@ -1,9 +1,8 @@
 package com.example.backend2.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.example.backend2.domain.entity.Comment;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 
 /**
  * (Comment)表服务接口
@@ -15,11 +14,11 @@ public interface CommentService extends IService<Comment> {
     /**
      * 分页查询
      *
-     * @param comment     筛选条件
-     * @param pageRequest 分页对象
+     * @param comment 筛选条件
+     * @param page    分页对象
      * @return 查询结果
      */
-    Page<Comment> queryByPage(Comment comment, PageRequest pageRequest);
+    Page<Comment> queryByPage(Comment comment, Page<Comment> page);
 
     /**
      * 新增数据

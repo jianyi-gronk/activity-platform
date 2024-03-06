@@ -1,13 +1,11 @@
 package com.example.backend2.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.example.backend2.domain.entity.Click;
 import com.example.backend2.mapper.ClickMapper;
 import com.example.backend2.service.ClickService;
-import jakarta.annotation.Resource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,20 +16,20 @@ import org.springframework.stereotype.Service;
  */
 @Service("clickService")
 public class ClickServiceImpl extends ServiceImpl<ClickMapper, Click> implements ClickService {
-    @Resource
-    private ClickMapper clickMapper;
-
     /**
      * 分页查询
      *
-     * @param click       筛选条件
-     * @param pageRequest 分页对象
+     * @param click 筛选条件
+     * @param page  分页对象
      * @return 查询结果
      */
     @Override
-    public Page<Click> queryByPage(Click click, PageRequest pageRequest) {
-        long total = this.clickMapper.count(click);
-        return new PageImpl<>(this.clickMapper.queryAllByLimit(click, pageRequest), pageRequest, total);
+    public Page<Click> queryByPage(Click click, Page<Click> page) {
+        LambdaQueryWrapper<Click> wrapper = new LambdaQueryWrapper<Click>() //
+                .eq(click.getActivityId() != null, Click::getActivityId, click.getActivityId()) //
+                .eq(click.getUserId() != null, Click::getUserId, click.getUserId()) //
+                .eq(click.getTime() != null, Click::getTime, click.getTime());
+        return page(page, wrapper);
     }
 
     /**

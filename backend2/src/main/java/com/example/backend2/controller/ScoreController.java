@@ -2,12 +2,10 @@ package com.example.backend2.controller;
 
 import com.example.backend2.domain.entity.Score;
 import com.example.backend2.service.ScoreService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import jakarta.annotation.Resource;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import jakarta.annotation.Resource;
 
 /**
  * (Score)表控制层
@@ -27,13 +25,14 @@ public class ScoreController {
     /**
      * 分页查询
      *
-     * @param score       筛选条件
-     * @param pageRequest 分页对象
+     * @param score    筛选条件
+     * @param pageNo   页码
+     * @param pageSize 页面尺寸
      * @return 查询结果
      */
     @GetMapping
-    public ResponseEntity<Page<Score>> queryByPage(Score score, PageRequest pageRequest) {
-        return ResponseEntity.ok(this.scoreService.queryByPage(score, pageRequest));
+    public ResponseEntity<Page<Score>> queryByPage(Score score, Integer pageNo, Integer pageSize) {
+        return ResponseEntity.ok(this.scoreService.queryByPage(score, new Page<>(pageNo, pageSize)));
     }
 
     /**
@@ -42,7 +41,7 @@ public class ScoreController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Score> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.scoreService.getById(id));
     }
@@ -75,8 +74,8 @@ public class ScoreController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
-    public ResponseEntity<Boolean> deleteById(Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteById(@PathVariable Long id) {
         return ResponseEntity.ok(this.scoreService.removeById(id));
     }
 
