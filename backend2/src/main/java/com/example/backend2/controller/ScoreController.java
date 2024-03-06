@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2024-03-05 22:11:08
  */
 @RestController
-@RequestMapping("score")
+@RequestMapping("/score")
 public class ScoreController {
     /**
      * 服务对象

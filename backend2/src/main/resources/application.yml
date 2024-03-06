@@ -2,6 +2,10 @@ server:
   port: 8080
   servlet:
     context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
   compression:
     enabled: true
     mime-types: application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain
@@ -48,7 +52,7 @@ mybatis-plus:
       logic-delete-field: deleted
       logic-not-delete-value: 0
       logic-delete-value: 1
-#      table-prefix: tbl_
+  #      table-prefix: tbl_
   mapper-locations: classpath:mapper/*.xml
 
 logging:
@@ -61,3 +65,14 @@ logging:
       max-file-size: 500KB
       file-name-pattern: server.%d.%i.log
 
+token:
+  # 令牌自定义标识
+  header: Authorization
+  # 令牌密钥
+  secret: Xo5EpmTQ12K2jW9Xoa5t4ouT3AsiqWvA
+  # 发行人
+  iss: jianyi-gronk
+  # 主题
+  sub: 活动报名与管理系统
+  # 令牌有效期
+  ttl: 30

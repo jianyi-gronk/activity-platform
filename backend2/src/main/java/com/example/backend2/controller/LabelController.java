@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2024-03-05 22:11:07
  */
 @RestController
-@RequestMapping("label")
+@RequestMapping("/label")
 public class LabelController {
     /**
      * 服务对象

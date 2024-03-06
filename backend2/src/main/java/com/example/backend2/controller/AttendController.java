@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
  * @since 2024-03-05 22:11:05
  */
 @RestController
-@RequestMapping("attend")
+@RequestMapping("/attend")
 public class AttendController {
     /**
      * 服务对象

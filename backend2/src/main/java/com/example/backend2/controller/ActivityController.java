@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Tag(name = "活动接口", description = "活动接口")
 @RestController
-@RequestMapping("activity")
+@RequestMapping("/activity")
 public class ActivityController {
     /**
      * 服务对象
