@@ -43,7 +43,7 @@ public class SwaggerConfig implements ApplicationListener<WebServerInitializedEv
         int port = event.getWebServer().getPort();
         String applicationName = event.getApplicationContext().getApplicationName();// 获取应用名
         log.info("-----------------------------------------------------");
-        log.info("-\t本地地址：http://{}:{}{}", hostAddress, port, applicationName);
+        log.info("-\t本地地址：\thttp://{}:{}{}", hostAddress, port, applicationName);
         log.info("-\tSwagger文档：http://{}:{}{}/doc.html", hostAddress, port, applicationName);
         log.info("-----------------------------------------------------");
     }

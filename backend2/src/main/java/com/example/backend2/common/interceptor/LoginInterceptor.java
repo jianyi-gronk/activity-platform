@@ -1,8 +1,9 @@
 package com.example.backend2.common.interceptor;
 
 import cn.hutool.extra.servlet.JakartaServletUtil;
+import cn.hutool.json.JSONUtil;
 import cn.hutool.jwt.JWT;
-import cn.hutool.jwt.JWTUtil;
+import com.example.backend2.domain.R;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,19 +28,18 @@ public class LoginInterceptor implements HandlerInterceptor {
     private String SECRET;
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String uri = request.getRequestURI();
         // 白名单放行
         if (Arrays.stream(urls).anyMatch(uri::contains)) {
             return true;
         }
         String authorization = request.getHeader("Authorization");
-        JWT jwt = JWTUtil.parseToken(authorization);
         boolean verify = JWT.of(authorization).setKey(SECRET.getBytes(StandardCharsets.UTF_8)).verify();
         if (verify) {
             return true;
         }
-        JakartaServletUtil.write(response, "请求失败，请登录！", MediaType.APPLICATION_JSON_VALUE);
+        JakartaServletUtil.write(response, JSONUtil.toJsonStr(R.error("请求失败，请登录！")), MediaType.APPLICATION_JSON_VALUE);
         // 默认拦截
         return false;
     }
