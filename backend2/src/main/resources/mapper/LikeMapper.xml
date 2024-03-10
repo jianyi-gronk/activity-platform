@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend2.mapper.LikeMapper">
+
+    <resultMap type="com.example.backend2.domain.entity.Like" id="LikeMap">
+        <result property="activityId" column="activity_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="LikeMap">
+        select activity_id,
+               user_id
+        from `like`
+        where activity_id = #{activityId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="LikeMap">
+        select
+        activity_id, user_id
+        from `like`
+        <where>
+            <if test="activityId != null">
+                and activity_id = #{activityId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from `like`
+        <where>
+            <if test="activityId != null">
+                and activity_id = #{activityId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="activityId" useGeneratedKeys="true">
+        insert into `like`()
+        values ()
+    </insert>
+
+    <insert id="insertBatch" keyProperty="activityId" useGeneratedKeys="true">
+        insert into `like`()
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            ()
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="activityId" useGeneratedKeys="true">
+        insert into `like`()
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            ()
+        </foreach>
+        on duplicate key update
+
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update `like`
+        <set>
+        </set>
+        where activity_id = #{activityId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from `like`
+        where activity_id = #{activityId}
+    </delete>
+
+</mapper>
+

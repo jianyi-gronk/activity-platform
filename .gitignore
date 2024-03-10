@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+/backend2/.gitignore
+/backend2/mvnw
+/backend2/mvnw.cmd
+/backend2/.mvn/
