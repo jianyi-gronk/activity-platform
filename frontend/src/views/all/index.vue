@@ -44,16 +44,19 @@
         </a-form-item>
       </a-form>
       <a-flex class="activity-container">
-        <div class="activity-item" v-for="i in new Array(100)" :key="i"></div>
+        <div class="activity-item" v-for="i in new Array(100)" :key="i" @click="showDetail = true"></div>
       </a-flex>
     </a-flex>
+    <activity-detail v-model:showDetail=showDetail></activity-detail>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, nextTick } from 'vue';
 import { PlusOutlined } from '@ant-design/icons-vue';
+import ActivityDetail from '../common/ActivityDetail.vue'
 
+const showDetail = ref(false);
 const inputRef = ref<HTMLInputElement | null>(null);
 const inputLabel = ref('');
 const inputVisible = ref(false);

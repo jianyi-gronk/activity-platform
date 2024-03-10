@@ -24,6 +24,11 @@ const routes: Readonly<RouteRecordRaw[]> = [
         component: () => import("../views/manage/index.vue")
       },
       {
+        path: "/manage/:mangeId",
+        name: "manageDetail",
+        component: () => import("../views/manage/detail.vue")
+      },
+      {
         path: "/my/:userId",
         name: "my",
         component: () => import("../views/my/index.vue")
