@@ -103,13 +103,14 @@ const handleInputConfirm = () => {
   }
   .activity-container {
     align-items: center;
-    justify-content: space-between;
     flex-wrap: wrap;
     .activity-item {
       width: 250px;
       height: 300px;
       background-color: pink;
       margin-bottom: 20px;
+      margin-right: 25px;
+      margin-left: 25px;
     }
   }
 }

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend2.mapper.ScoreMapper">
+
+    <resultMap type="com.example.backend2.domain.entity.Score" id="ScoreMap">
+        <result property="activityId" column="activity_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ScoreMap">
+        select activity_id,
+               user_id,
+               score
+        from score
+        where activity_id = #{activityId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ScoreMap">
+        select
+        activity_id, user_id, score
+        from score
+        <where>
+            <if test="activityId != null">
+                and activity_id = #{activityId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="score != null">
+                and score = #{score}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from score
+        <where>
+            <if test="activityId != null">
+                and activity_id = #{activityId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="score != null">
+                and score = #{score}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="activityId" useGeneratedKeys="true">
+        insert into score(score)
+        values (#{score})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="activityId" useGeneratedKeys="true">
+        insert into score(score)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.score})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="activityId" useGeneratedKeys="true">
+        insert into score(score)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.score})
+        </foreach>
+        on duplicate key update
+        score = values(score)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update score
+        <set>
+            <if test="score != null">
+                score = #{score},
+            </if>
+        </set>
+        where activity_id = #{activityId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from score
+        where activity_id = #{activityId}
+    </delete>
+
+</mapper>
+

@@ -23,3 +23,19 @@ export const deleteUserInformation = (params: any): Promise<any> => {
 export const verifyUser = (params: any): Promise<any> => {
   return request.get("/user/verify", { params });
 };
+
+export const addActivity = (params: any): Promise<any> => {
+  return request.post("activity/item", params);
+};
+
+export const getActivityById = (params: any): Promise<any> => {
+  return request.get("activity/my", { params });
+};
+
+export const getActivityAll = (): Promise<any> => {
+  return request.get("activity/all");
+};
+
+export const deleteActivity = (params: any): Promise<any> => {
+  return request.delete("activity/item", { params });
+};

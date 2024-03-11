@@ -122,12 +122,12 @@ const isRegisterFormValid = computed(() => {
     && registerForm.value.password === registerForm.value.confirmPassword;
 });;
 
-interface loginForm {
+interface LoginForm {
   userName: string;
   password: string;
 }
 
-const loginForm = ref<loginForm>({
+const loginForm = ref<LoginForm>({
   userName: '',
   password: ''
 });

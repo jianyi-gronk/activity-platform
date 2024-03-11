@@ -8,6 +8,12 @@ import {
   updateUserInfo,
   deleteUserInfo
 } from "./sql/user";
+import {
+  addActivity,
+  getActivityAll,
+  getActivityByUser,
+  deleteActivity
+} from "./sql/activity";
 import { generateToken, verifyToken } from "./until/jwt";
 
 // 扩展 Express 的 Request 类型
@@ -108,6 +114,50 @@ app.get("/user/verify", verifyToken, async function (req, res) {
   } else {
     res.send({ result: false });
   }
+});
+
+app.post("/activity/item", verifyToken, async function (req, res) {
+  const title = req.body.title as string;
+  const description = req.body.description as string;
+  const startTime = req.body.startTime as string;
+  const endTime = req.body.endTime as string;
+  const location = req.body.location as string;
+  const upperLimit = req.body.limit as string;
+  if (req.userId && "" + req.userId === req.body.userId) {
+    const data = await addActivity(
+      req.body.userId,
+      title,
+      description,
+      startTime,
+      endTime,
+      location,
+      upperLimit
+    );
+    res.send({ result: data });
+  } else {
+    res.send({ result: false });
+  }
+});
+
+app.delete("/activity/item", verifyToken, async function (req, res) {
+  const id = req.query.id as string;
+  if (req.userId && "" + req.userId === req.query.userId) {
+    const data = await deleteActivity(id, req.query.userId);
+  }
+});
+
+app.get("/activity/my", verifyToken, async function (req, res) {
+  if (req.userId && "" + req.userId === req.query.userId) {
+    const data = await getActivityByUser(req.query.userId);
+    res.send({ result: data });
+  } else {
+    res.send({ result: false });
+  }
+});
+
+app.get("/activity/all", async function (req, res) {
+  const data = await getActivityAll();
+  res.send({ result: data });
 });
 
 console.log("open");

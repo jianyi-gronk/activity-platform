@@ -1,0 +1,78 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  compression:
+    enabled: true
+    mime-types: application/javascript,text/css,application/json,application/xml,text/html,text/xml,text/plain
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/activity_platform?serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+  main:
+    banner-mode: off
+  thymeleaf:
+    prefix: classpath:/templates/
+    cache: false
+  web:
+    resources:
+      static-locations: classpath:/static/
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 20MB
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  data:
+    redis:
+      port: 6379
+      host: localhost
+      database: 0
+
+# \u5F00\u542FMP\u63A7\u5236\u53F0\u65E5\u5FD7
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+      logic-delete-field: deleted
+      logic-not-delete-value: 0
+      logic-delete-value: 1
+  #      table-prefix: tbl_
+  mapper-locations: classpath:mapper/*.xml
+
+logging:
+  level:
+    root: info
+  pattern:
+    console: "%clr([%5p]) %d %magenta(${PID:- }) --- %clr([%18t]) %cyan(%-40.40c) : %m%n"
+  logback:
+    rollingpolicy:
+      max-file-size: 500KB
+      file-name-pattern: server.%d.%i.log
+
+token:
+  # 令牌自定义标识
+  header: Authorization
+  # 令牌密钥
+  secret: Xo5EpmTQ12K2jW9Xoa5t4ouT3AsiqWvA
+  # 发行人
+  iss: jianyi-gronk
+  # 主题
+  sub: 活动报名与管理系统
+  # 令牌有效期
+  ttl: 30

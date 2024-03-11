@@ -14,7 +14,7 @@ export const GET_TOKEN = ref(
 );
 
 export const GET_USERID = ref(
-  localStorage.getItem(LOCAL_STORAGE_KEY.USERID) || TOKEN_DEFAULT
+  localStorage.getItem(LOCAL_STORAGE_KEY.USERID) || USERID_DEFAULT
 );
 
 export function changeTheme(val: string) {

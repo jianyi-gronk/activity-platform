@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend2.mapper.LabelMapper">
+
+    <resultMap type="com.example.backend2.domain.entity.Label" id="LabelMap">
+        <result property="activityId" column="activity_id" jdbcType="INTEGER"/>
+        <result property="label" column="label" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="LabelMap">
+        select activity_id,
+               label
+        from label
+        where activity_id = #{activityId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="LabelMap">
+        select
+        activity_id, label
+        from label
+        <where>
+            <if test="activityId != null">
+                and activity_id = #{activityId}
+            </if>
+            <if test="label != null and label != ''">
+                and label = #{label}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from label
+        <where>
+            <if test="activityId != null">
+                and activity_id = #{activityId}
+            </if>
+            <if test="label != null and label != ''">
+                and label = #{label}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="activityId" useGeneratedKeys="true">
+        insert into label()
+        values ()
+    </insert>
+
+    <insert id="insertBatch" keyProperty="activityId" useGeneratedKeys="true">
+        insert into label()
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            ()
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="activityId" useGeneratedKeys="true">
+        insert into label()
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            ()
+        </foreach>
+        on duplicate key update
+
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update label
+        <set>
+        </set>
+        where activity_id = #{activityId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from label
+        where activity_id = #{activityId}
+    </delete>
+
+</mapper>
+
