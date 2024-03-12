@@ -34,8 +34,17 @@ export async function getActivityByUser(userId: string) {
   return results;
 }
 
+// 获取某个活动信息
+export async function getActivityById(id: string) {
+  const results: any = await mysql.operate(
+    `SELECT * FROM activity WHERE id = ?;`,
+    [id]
+  );
+  return results;
+}
+
 // 查看是否活动是否属于用户
-export async function getActivityById(id: string, userId: string) {
+export async function getActivityByIdAndUser(id: string, userId: string) {
   const results: any = await mysql.operate(
     `SELECT * FROM activity WHERE id = ? AND user_id = ?;`,
     [id, userId]
@@ -46,7 +55,7 @@ export async function getActivityById(id: string, userId: string) {
 // 删除活动
 export async function deleteActivity(id: string, userId: string) {
   // 检验是否已经存在该活动
-  const result = await getActivityById(id, userId);
+  const result = await getActivityByIdAndUser(id, userId);
   if (result) {
     return false;
   }

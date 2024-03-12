@@ -12,7 +12,8 @@ import {
   addActivity,
   getActivityAll,
   getActivityByUser,
-  deleteActivity
+  deleteActivity,
+  getActivityById
 } from "./sql/activity";
 import { generateToken, verifyToken } from "./until/jwt";
 
@@ -144,13 +145,26 @@ app.delete("/activity/item", verifyToken, async function (req, res) {
   if (req.userId && "" + req.userId === req.query.userId) {
     const data = await deleteActivity(id, req.query.userId);
   }
+  else {
+    res.send({ result: false });
+  }
 });
 
-app.get("/activity/my", verifyToken, async function (req, res) {
+app.get("/activity/user", verifyToken, async function (req, res) {
   if (req.userId && "" + req.userId === req.query.userId) {
     const data = await getActivityByUser(req.query.userId);
     res.send({ result: data });
   } else {
+    res.send({ result: false });
+  }
+});
+
+app.get("/activity/item", verifyToken, async function (req, res) {
+  const data = await getActivityById(req.query.userId);
+  if (data) {
+    res.send({ result: data });
+  }
+  else {
     res.send({ result: false });
   }
 });

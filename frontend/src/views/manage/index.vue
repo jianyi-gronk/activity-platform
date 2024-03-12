@@ -4,7 +4,7 @@
       <a-button type="primary" @click="() => openModal = true">+ 创建活动</a-button>
     </div>
     <a-flex class="activity-container">
-      <Activity class="activity-item" v-for="item, index in myAcitivitys" :key="index" @click="() => { router.push('/manage/' + item.id)}" :data="item"></Activity>
+      <Activity class="activity-item" v-for="item, index in myAcitivitys" :key="index" @click="() => { router.push('/manage/detail/modify/' + item.id)}" :data="item"></Activity>
     </a-flex>
     <a-modal v-model:open="openModal" :footer="null">
       <a-form
@@ -61,7 +61,7 @@ import { ref } from 'vue';
 import { useRouter,  } from 'vue-router';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
-import { addActivity, getActivityById } from '@/api/api'
+import { addActivity, getActivityByUserId } from '@/api/api'
 import { GET_USERID } from '../../base/localStorage';
 import { message } from 'ant-design-vue';
 import Activity from '../common/Activity.vue';
@@ -96,17 +96,18 @@ const addActivityItem = () => {
   addForm.value.endTime = addForm.value.timeArr[1].toDate();
   const data = addActivity({ ...addForm.value, userId: GET_USERID.value });
   if (data.result) {
-    message.success('注册成功，即将自动登录！');
+    message.success('添加活动成功！');
+    getActivity();
   }
   else {
-    message.success('注册失败，请重试！');
+    message.success('添加活动失败！');
   }
 }
 
 const myAcitivitys = ref([]);
 
 const getActivity = async () => {
-  const data = await getActivityById({ userId: GET_USERID.value });
+  const data = await getActivityByUserId({ userId: GET_USERID.value });
   if(data.result) {
     myAcitivitys.value = data.result;
     console.log(data.result)
