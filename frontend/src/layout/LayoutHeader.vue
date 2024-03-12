@@ -172,8 +172,6 @@ const userRegister = async () => {
   }
 }
 
-
-
 </script>
 
 <style scoped lang="less">

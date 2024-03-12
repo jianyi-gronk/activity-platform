@@ -8,7 +8,6 @@
         @after-open-change="afterOpenChange"
       >
       <a-descriptions :column="1" title="xxx">
-
         <a-descriptions-item>
           <img alt="example" src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png" style="width: 240px"/>
         </a-descriptions-item>

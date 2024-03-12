@@ -4,7 +4,7 @@
       <a-button type="primary" @click="() => openModal = true">+ 创建活动</a-button>
     </div>
     <a-flex class="activity-container">
-      <div class="activity-item" v-for="(i, index) in new Array(10)" :key="i" @click="() => { router.push('/manage/' + index)}"></div>
+      <Activity class="activity-item" v-for="item, index in myAcitivitys" :key="index" @click="() => { router.push('/manage/' + item.id)}" :data="item"></Activity>
     </a-flex>
     <a-modal v-model:open="openModal" :footer="null">
       <a-form
@@ -61,8 +61,10 @@ import { ref } from 'vue';
 import { useRouter,  } from 'vue-router';
 import type { Dayjs } from 'dayjs';
 import dayjs from 'dayjs';
-import { addActivity } from '@/api/api'
+import { addActivity, getActivityById } from '@/api/api'
 import { GET_USERID } from '../../base/localStorage';
+import { message } from 'ant-design-vue';
+import Activity from '../common/Activity.vue';
 
 type RangeValue = [Dayjs, Dayjs];
 
@@ -92,14 +94,29 @@ const openModal = ref(false);
 const addActivityItem = () => {
   addForm.value.startTime = addForm.value.timeArr[0].toDate();
   addForm.value.endTime = addForm.value.timeArr[1].toDate();
-  addActivity({ ...addForm.value, userId: GET_USERID.value });
+  const data = addActivity({ ...addForm.value, userId: GET_USERID.value });
+  if (data.result) {
+    message.success('注册成功，即将自动登录！');
+  }
+  else {
+    message.success('注册失败，请重试！');
+  }
 }
 
-const myAcitivity = ref([]);
+const myAcitivitys = ref([]);
 
 const getActivity = async () => {
-  myAcitivity.value = 
+  const data = await getActivityById({ userId: GET_USERID.value });
+  if(data.result) {
+    myAcitivitys.value = data.result;
+    console.log(data.result)
+  }
+  else {
+    message.success('获取失败，请先登陆！');
+  }
 }
+
+getActivity();
 </script>
 
 <style scoped lang="less">
@@ -115,7 +132,6 @@ const getActivity = async () => {
     .activity-item {
       width: 250px;
       height: 300px;
-      background-color: pink;
       margin-bottom: 20px;
       margin-right: 25px;
       margin-left: 25px;
