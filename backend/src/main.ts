@@ -144,8 +144,7 @@ app.delete("/activity/item", verifyToken, async function (req, res) {
   const id = req.query.id as string;
   if (req.userId && "" + req.userId === req.query.userId) {
     const data = await deleteActivity(id, req.query.userId);
-  }
-  else {
+  } else {
     res.send({ result: false });
   }
 });
@@ -160,11 +159,11 @@ app.get("/activity/user", verifyToken, async function (req, res) {
 });
 
 app.get("/activity/item", verifyToken, async function (req, res) {
-  const data = await getActivityById(req.query.userId);
+  const id = req.query.id as string;
+  const data = await getActivityById(id);
   if (data) {
     res.send({ result: data });
-  }
-  else {
+  } else {
     res.send({ result: false });
   }
 });

@@ -25,21 +25,21 @@ export const verifyUser = (params: any): Promise<any> => {
 };
 
 export const addActivity = (params: any): Promise<any> => {
-  return request.post("activity/item", params);
+  return request.post("/activity/item", params);
 };
 
 export const getActivityByUserId = (params: any): Promise<any> => {
-  return request.get("activity/user", { params });
+  return request.get("/activity/user", { params });
 };
 
 export const getActivityById = (params: any): Promise<any> => {
-  return request.get("activity/item", { params });
+  return request.get("/activity/item", { params });
 };
 
 export const getActivityAll = (): Promise<any> => {
-  return request.get("activity/all");
+  return request.get("/activity/all");
 };
 
 export const deleteActivity = (params: any): Promise<any> => {
-  return request.delete("activity/item", { params });
+  return request.delete("/activity/item", { params });
 };

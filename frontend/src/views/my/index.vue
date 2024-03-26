@@ -36,7 +36,7 @@
       </a-descriptions-item>
       <a-descriptions-item label="用户密码">
         <div v-if="!editValue.password.isEdit">
-          <span>{{ userData.password }}</span>
+          <span>{{ canEdit ? userData.password : '********' }}</span>
           <edit-outlined class="edit-icon" @click="showEdit('password')" v-if="canEdit" />
         </div>
         <div v-else>

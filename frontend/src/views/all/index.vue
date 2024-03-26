@@ -2,9 +2,6 @@
   <div class="__container_all_index">
     <a-flex vertical>
       <a-form class="filter">
-        <a-form-item>
-          <a-checkbox v-model:checked="filterDate.like">只看我喜欢的</a-checkbox>
-        </a-form-item>
         <a-form-item label="活动名">
           <a-input-search
             v-model:value="filterDate.name"
@@ -23,7 +20,7 @@
         </a-form-item>
         <a-form-item label="活动标签">
           <template v-for="label in filterDate.labels" :key="label">
-            <a-tag @close="handleClose(label)">
+            <a-tag closable @close="handleClose(label)">
               {{ label }}
             </a-tag>
           </template>
@@ -64,7 +61,6 @@ const inputLabel = ref('');
 const inputVisible = ref(false);
 
 const filterDate = ref({
-  like: false,
   name: '',
   state: 'all',
   labels: []
@@ -127,7 +123,7 @@ const choice = (i: number) => {
     .activity-item {
       width: 250px;
       height: 300px;
-      margin-bottom: 20px;
+      margin-bottom: 65px;
       margin-right: 25px;
       margin-left: 25px;
     }

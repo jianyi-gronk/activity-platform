@@ -40,7 +40,7 @@ export async function getActivityById(id: string) {
     `SELECT * FROM activity WHERE id = ?;`,
     [id]
   );
-  return results;
+  return results[0];
 }
 
 // 查看是否活动是否属于用户

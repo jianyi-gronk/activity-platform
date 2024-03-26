@@ -4,7 +4,7 @@
       <a-button type="primary" @click="() => openModal = true">+ 创建活动</a-button>
     </div>
     <a-flex class="activity-container">
-      <Activity class="activity-item" v-for="item, index in myAcitivitys" :key="index" @click="() => { router.push('/manage/detail/modify/' + item.id)}" :data="item"></Activity>
+      <Activity class="activity-item" v-for="item, index in myAcitivitys" :key="index" @click="() => { router.push('/manage/' + item.id)}" :data="item"></Activity>
     </a-flex>
     <a-modal v-model:open="openModal" :footer="null">
       <a-form
@@ -133,7 +133,7 @@ getActivity();
     .activity-item {
       width: 250px;
       height: 300px;
-      margin-bottom: 20px;
+      margin-bottom: 65px;
       margin-right: 25px;
       margin-left: 25px;
     }
